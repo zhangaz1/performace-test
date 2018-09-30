@@ -1,0 +1,38 @@
+<html>
+
+<head>
+	<script>
+		var deep = 350;
+		var loop = 5000000;
+
+		function test(start) {
+			var worker = getWorker(deep)();
+			worker();
+
+			if (--deep > 0) {
+				test();
+			}
+
+			worker();
+
+			if (start) {
+				console.log('ready');
+			}
+		}
+
+		function getWorker(n) {
+			return new Function(`
+				return function worker_` + n + `(){
+					var tmp = `+ loop + `;
+					while (tmp--) { }
+			}`);
+		}
+
+	</script>
+</head>
+
+<body>
+	<button onclick="test(true);">test</button>
+</body>
+
+</html>
